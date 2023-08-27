@@ -1,13 +1,9 @@
+import errorImg from "./error.gif";
+
 import "./errorMessage.scss";
 
 const ErrorMessage = () => {
-  return (
-    <img
-      src={process.env.PUBLIC_URL + "/error.gif"}
-      alt="Error"
-      className="error-msg"
-    />
-  );
+  return <img src={errorImg} alt="Error" className="error-msg" />;
 };
 
 export default ErrorMessage;
