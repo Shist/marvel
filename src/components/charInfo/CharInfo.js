@@ -72,11 +72,11 @@ class CharInfo extends Component {
 const View = ({ char }) => {
   const { name, description, thumbnail, homepage, wiki, comics } = char;
   const comicsArr = comics.map((item, index) => {
-    return (
+    return index < 10 ? (
       <li className="char__comics-item" key={index}>
         {item.name}
       </li>
-    );
+    ) : null;
   });
   return (
     <>
