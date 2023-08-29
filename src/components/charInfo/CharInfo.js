@@ -74,7 +74,15 @@ const View = ({ char }) => {
   return (
     <>
       <div className="char__basics">
-        <img src={thumbnail} alt={name} />
+        <img
+          src={thumbnail}
+          alt={name}
+          style={
+            thumbnail.endsWith("image_not_available.jpg")
+              ? { objectFit: "contain" }
+              : null
+          }
+        />
         <div>
           <div className="char__info-name">{name}</div>
           <div className="char__btns">
