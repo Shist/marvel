@@ -71,6 +71,13 @@ class CharInfo extends Component {
 
 const View = ({ char }) => {
   const { name, description, thumbnail, homepage, wiki, comics } = char;
+  const comicsArr = comics.map((item, index) => {
+    return (
+      <li className="char__comics-item" key={index}>
+        {item.name}
+      </li>
+    );
+  });
   return (
     <>
       <div className="char__basics">
@@ -98,13 +105,9 @@ const View = ({ char }) => {
       <div className="char__descr">{description}</div>
       <div className="char__comics">Comics:</div>
       <ul className="char__comics-list">
-        {comics.map((item, index) => {
-          return (
-            <li className="char__comics-item" key={index}>
-              {item.name}
-            </li>
-          );
-        })}
+        {comicsArr.length
+          ? comicsArr
+          : "There are no any comics with this character"}
       </ul>
     </>
   );
