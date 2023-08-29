@@ -5,7 +5,7 @@ class CharListItem extends Component {
   render() {
     const { name, thumbnail } = this.props.char;
     return (
-      <li className="char-list-item">
+      <li className="char-list-item" onClick={this.props.onCharSelected}>
         <img
           src={thumbnail}
           alt={`character ${name}`}
