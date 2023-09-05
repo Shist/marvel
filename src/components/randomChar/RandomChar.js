@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import Spinner from "../../components/spinner/Spinner";
 import ErrorMessage from "../../components/errorMessage/ErrorMessage";
 import MarvelService from "../../services/MarvelService";
@@ -11,7 +11,7 @@ const RandomChar = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const marvelService = useMemo(() => new MarvelService(), []);
+  const marvelService = new MarvelService();
 
   const updateChar = () => {
     onCharLoading();
@@ -19,7 +19,9 @@ const RandomChar = () => {
     marvelService.getCharacter(id).then(onCharLoaded).catch(onError);
   };
 
-  useEffect(updateChar, [marvelService]);
+  useEffect(() => {
+    updateChar();
+  }, []);
 
   const onCharLoaded = (char) => {
     setChar(char);

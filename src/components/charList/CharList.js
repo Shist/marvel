@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 
 import Spinner from "../../components/spinner/Spinner";
@@ -16,22 +16,19 @@ const CharList = ({ onCharSelected }) => {
   const [offset, setOffset] = useState(210);
   const [charsEnded, setCharsEnded] = useState(false);
 
-  const marvelService = useMemo(() => new MarvelService(), []);
+  const marvelService = new MarvelService();
 
-  const onRequest = useCallback(
-    (offset) => {
-      onCharsListLoading();
-      marvelService
-        .getAllCharacters(offset)
-        .then(onCharsListLoaded)
-        .catch(onError);
-    },
-    [marvelService]
-  );
+  const onRequest = (offset) => {
+    onCharsListLoading();
+    marvelService
+      .getAllCharacters(offset)
+      .then(onCharsListLoaded)
+      .catch(onError);
+  };
 
   useEffect(() => {
     onRequest();
-  }, [onRequest]);
+  }, []);
 
   const onCharsListLoading = () => {
     setNewItemsLoading(true);

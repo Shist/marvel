@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import MarvelService from "../../services/MarvelService";
@@ -13,7 +13,7 @@ const CharInfo = ({ charId }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const marvelService = useMemo(() => new MarvelService(), []);
+  const marvelService = new MarvelService();
 
   const updateChar = () => {
     if (!charId) {
@@ -24,7 +24,9 @@ const CharInfo = ({ charId }) => {
     marvelService.getCharacter(charId).then(onCharLoaded).catch(onError);
   };
 
-  useEffect(updateChar, [charId, marvelService]);
+  useEffect(() => {
+    updateChar();
+  }, [charId]);
 
   const onCharLoaded = (char) => {
     setChar(char);
