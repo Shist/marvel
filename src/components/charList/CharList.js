@@ -10,28 +10,19 @@ import "./charList.scss";
 
 const CharList = ({ onCharSelected }) => {
   const [charsList, setCharsList] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
   const [newItemsLoading, setNewItemsLoading] = useState(false);
   const [offset, setOffset] = useState(210);
   const [charsEnded, setCharsEnded] = useState(false);
 
-  const marvelService = useMarvelService();
-
-  const onRequest = (offset) => {
-    onCharsListLoading();
-    marvelService
-      .getAllCharacters(offset)
-      .then(onCharsListLoaded)
-      .catch(onError);
-  };
+  const { loading, error, getAllCharacters } = useMarvelService();
 
   useEffect(() => {
-    onRequest();
+    onRequest(offset, true);
   }, []);
 
-  const onCharsListLoading = () => {
-    setNewItemsLoading(true);
+  const onRequest = (offset, initial) => {
+    initial ? setNewItemsLoading(false) : setNewItemsLoading(true);
+    getAllCharacters(offset).then(onCharsListLoaded);
   };
 
   const onCharsListLoaded = (newCharsList) => {
@@ -41,16 +32,9 @@ const CharList = ({ onCharSelected }) => {
     }
 
     setCharsList((charsList) => [...charsList, ...newCharsList]);
-    setLoading(false);
     setNewItemsLoading(false);
     setOffset((offset) => offset + 9);
     setCharsEnded(ended);
-  };
-
-  const onError = () => {
-    this.setState({ loading: false, error: true });
-    setLoading(false);
-    setError(true);
   };
 
   const itemsRefs = useRef([]);
@@ -64,20 +48,18 @@ const CharList = ({ onCharSelected }) => {
   };
 
   const errorMessage = error ? <ErrorMessage /> : null;
-  const spinner = loading ? <Spinner /> : null;
-  const content = !(loading || error)
-    ? charsList.map((char) => (
-        <CharListItem
-          key={char.id}
-          char={char}
-          itemsRefs={itemsRefs}
-          onItemClicked={() => {
-            onCharSelected(char.id);
-            focusOnItem(char.id);
-          }}
-        />
-      ))
-    : null;
+  const spinner = loading && !newItemsLoading ? <Spinner /> : null;
+  const content = charsList.map((char) => (
+    <CharListItem
+      key={char.id}
+      char={char}
+      itemsRefs={itemsRefs}
+      onItemClicked={() => {
+        onCharSelected(char.id);
+        focusOnItem(char.id);
+      }}
+    />
+  ));
 
   return (
     <div className="char__list">
@@ -88,7 +70,7 @@ const CharList = ({ onCharSelected }) => {
         className="button button__main button__long"
         disabled={newItemsLoading}
         style={{ display: charsEnded ? "none" : "block" }}
-        onClick={() => onRequest(offset)}
+        onClick={() => onRequest(offset, false)}
       >
         <div className="inner">load more</div>
       </button>
