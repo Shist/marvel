@@ -49,17 +49,19 @@ const CharList = ({ onCharSelected }) => {
 
   const errorMessage = error ? <ErrorMessage /> : null;
   const spinner = loading && !newItemsLoading ? <Spinner /> : null;
-  const content = charsList.map((char) => (
-    <CharListItem
-      key={char.id}
-      char={char}
-      itemsRefs={itemsRefs}
-      onItemClicked={() => {
-        onCharSelected(char.id);
-        focusOnItem(char.id);
-      }}
-    />
-  ));
+  const content = charsList.map((char) =>
+    char ? (
+      <CharListItem
+        key={char?.id}
+        char={char}
+        itemsRefs={itemsRefs}
+        onItemClicked={() => {
+          onCharSelected(char?.id);
+          focusOnItem(char?.id);
+        }}
+      />
+    ) : null
+  );
 
   return (
     <div className="char__list">
