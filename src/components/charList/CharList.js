@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import Spinner from "../../components/spinner/Spinner";
 import ErrorMessage from "../../components/errorMessage/ErrorMessage";
-import MarvelService from "../../services/MarvelService";
+import useMarvelService from "../../services/MarvelService";
 import CharListItem from "./CharListItem/CharListItem";
 
 import "./charList.scss";
@@ -16,7 +16,7 @@ const CharList = ({ onCharSelected }) => {
   const [offset, setOffset] = useState(210);
   const [charsEnded, setCharsEnded] = useState(false);
 
-  const marvelService = new MarvelService();
+  const marvelService = useMarvelService();
 
   const onRequest = (offset) => {
     onCharsListLoading();
