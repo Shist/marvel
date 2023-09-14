@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import PropTypes from "prop-types";
 
 import Spinner from "../../components/spinner/Spinner";
@@ -7,6 +8,7 @@ import useMarvelService from "../../services/MarvelService";
 import CharListItem from "./CharListItem/CharListItem";
 
 import "./charList.scss";
+import "./CharListItem/charListItem.scss";
 
 const CharList = ({ onCharSelected }) => {
   const [charsList, setCharsList] = useState([]);
@@ -49,18 +51,28 @@ const CharList = ({ onCharSelected }) => {
 
   const errorMessage = error ? <ErrorMessage /> : null;
   const spinner = loading && !newItemsLoading ? <Spinner /> : null;
-  const content = charsList.map((char) =>
-    char ? (
-      <CharListItem
-        key={char?.id}
-        char={char}
-        itemsRefs={itemsRefs}
-        onItemClicked={() => {
-          onCharSelected(char?.id);
-          focusOnItem(char?.id);
-        }}
-      />
-    ) : null
+  const content = (
+    <TransitionGroup component={null}>
+      {charsList.map((char) =>
+        char ? (
+          <CSSTransition
+            key={char?.id}
+            timeout={500}
+            classNames="char-list-item"
+          >
+            <CharListItem
+              key={char?.id}
+              char={char}
+              itemsRefs={itemsRefs}
+              onItemClicked={() => {
+                onCharSelected(char?.id);
+                focusOnItem(char?.id);
+              }}
+            />
+          </CSSTransition>
+        ) : null
+      )}
+    </TransitionGroup>
   );
 
   return (

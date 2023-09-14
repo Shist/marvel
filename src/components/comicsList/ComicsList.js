@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import Spinner from "../../components/spinner/Spinner";
 import ErrorMessage from "../../components/errorMessage/ErrorMessage";
@@ -6,6 +7,7 @@ import useMarvelService from "../../services/MarvelService";
 import ComicsListItem from "./ComicsListItem/ComicsListItem";
 
 import "./comicsList.scss";
+import "./ComicsListItem/comicsListItem.scss";
 
 const ComicsList = () => {
   const [comicsList, setComicsList] = useState([]);
@@ -38,8 +40,20 @@ const ComicsList = () => {
 
   const errorMessage = error ? <ErrorMessage /> : null;
   const spinner = loading && !newItemsLoading ? <Spinner /> : null;
-  const content = comicsList.map((comicsItem, index) =>
-    comicsItem ? <ComicsListItem comics={comicsItem} key={index} /> : null
+  const content = (
+    <TransitionGroup component={null}>
+      {comicsList.map((comicsItem, index) => {
+        return comicsItem ? (
+          <CSSTransition
+            key={index}
+            timeout={500}
+            classNames="comics-list-item"
+          >
+            <ComicsListItem comics={comicsItem} key={index} />
+          </CSSTransition>
+        ) : null;
+      })}
+    </TransitionGroup>
   );
 
   return (
