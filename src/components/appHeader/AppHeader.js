@@ -29,7 +29,6 @@ const AppHeader = () => {
               style={({ isActive }) => ({
                 color: isActive ? "#9f0013" : "inherit",
               })}
-              end
               to="/comics"
             >
               Comics

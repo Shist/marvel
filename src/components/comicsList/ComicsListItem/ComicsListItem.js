@@ -1,9 +1,11 @@
+import { Link } from "react-router-dom";
+
 import "./comicsListItem.scss";
 
 const ComicsListItem = ({ comics }) => {
   return (
     <li className="comics-list-item">
-      <a href="#">
+      <Link to={`/comics/${comics.id}`}>
         <img
           src={comics.thumbnail}
           alt={comics.title}
@@ -11,7 +13,7 @@ const ComicsListItem = ({ comics }) => {
         />
         <div className="comics-list-item__name">{comics.title}</div>
         <div className="comics-list-item__price">{comics.price}</div>
-      </a>
+      </Link>
     </li>
   );
 };

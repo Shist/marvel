@@ -24,12 +24,12 @@ const useMarvelService = () => {
     const result = await request(
       `${_apiBase}comics?orderBy=issueNumber&limit=8&offset=${offset}&${_apiKey}`
     );
-    return result.data.results.map(_transformComics);
+    return result.data.results.map(_transformComic);
   };
 
-  const getComics = async (id) => {
-    const result = await request(`${{ _apiBase }}comics/${id}?${_apiKey}`);
-    return _transformComics(result.data.results[0]);
+  const getComic = async (id) => {
+    const result = await request(`${_apiBase}comics/${id}?${_apiKey}`);
+    return _transformComic(result.data.results[0]);
   };
 
   const _transformCharacter = (char) => {
@@ -44,19 +44,19 @@ const useMarvelService = () => {
     };
   };
 
-  const _transformComics = (comics) => {
+  const _transformComic = (comic) => {
     return {
-      id: comics.id,
-      title: comics.title,
+      id: comic.id,
+      title: comic.title,
       description:
-        comics.description || "There is no description about this comics yet",
-      pageCount: comics.pageCount
-        ? `${comics.pageCount} p.`
+        comic.description || "There is no description about this comics yet",
+      pageCount: comic.pageCount
+        ? `${comic.pageCount} pages`
         : `There is no info about number of pages of that comics`,
-      thumbnail: `${comics.thumbnail.path}.${comics.thumbnail.extension}`,
-      language: comics.textObjects[0]?.language || "en-us",
-      price: comics.prices[0].price
-        ? `${comics.prices[0].price}$`
+      thumbnail: `${comic.thumbnail.path}.${comic.thumbnail.extension}`,
+      language: comic.textObjects[0]?.language || "en-us",
+      price: comic.prices[0].price
+        ? `${comic.prices[0].price}$`
         : "Not available",
     };
   };
@@ -67,7 +67,7 @@ const useMarvelService = () => {
     clearError,
     getAllCharacters,
     getCharacter,
-    getComics,
+    getComic,
     getAllComics,
   };
 };
