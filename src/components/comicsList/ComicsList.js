@@ -9,13 +9,28 @@ import ComicsListItem from "./ComicsListItem/ComicsListItem";
 import "./comicsList.scss";
 import "./ComicsListItem/comicsListItem.scss";
 
+const setContent = (process, Component, newItemsLoading) => {
+  switch (process) {
+    case "waiting":
+      return <Spinner />;
+    case "loading":
+      return newItemsLoading ? <Component /> : <Spinner />;
+    case "confirmed":
+      return <Component />;
+    case "error":
+      return <ErrorMessage />;
+    default:
+      throw new Error("Unexpected process state");
+  }
+};
+
 const ComicsList = () => {
   const [comicsList, setComicsList] = useState([]);
   const [newItemsLoading, setNewItemsLoading] = useState(false);
   const [offset, setOffset] = useState(0);
   const [comicsEnded, setComicsEnded] = useState(false);
 
-  const { loading, error, getAllComics } = useMarvelService();
+  const { getAllComics, process, setProcess } = useMarvelService();
 
   useEffect(() => {
     onRequest(offset, true);
@@ -23,7 +38,9 @@ const ComicsList = () => {
 
   const onRequest = (offset, initial) => {
     initial ? setNewItemsLoading(false) : setNewItemsLoading(true);
-    getAllComics(offset).then(onComicsListLoaded);
+    getAllComics(offset)
+      .then(onComicsListLoaded)
+      .then(() => setProcess("confirmed"));
   };
 
   const onComicsListLoaded = (newComicsList) => {
@@ -38,29 +55,27 @@ const ComicsList = () => {
     setComicsEnded(ended);
   };
 
-  const errorMessage = error ? <ErrorMessage /> : null;
-  const spinner = loading && !newItemsLoading ? <Spinner /> : null;
   const content = (
-    <TransitionGroup component={null}>
-      {comicsList.map((comicsItem, index) => {
-        return comicsItem ? (
-          <CSSTransition
-            key={index}
-            timeout={500}
-            classNames="comics-list-item"
-          >
-            <ComicsListItem comics={comicsItem} key={index} />
-          </CSSTransition>
-        ) : null;
-      })}
-    </TransitionGroup>
+    <ul className="comics__grid">
+      <TransitionGroup component={null}>
+        {comicsList.map((comicsItem, index) => {
+          return comicsItem ? (
+            <CSSTransition
+              key={index}
+              timeout={500}
+              classNames="comics-list-item"
+            >
+              <ComicsListItem comics={comicsItem} key={index} />
+            </CSSTransition>
+          ) : null;
+        })}
+      </TransitionGroup>
+    </ul>
   );
 
   return (
     <div className="comics__list">
-      {errorMessage}
-      {spinner}
-      <ul className="comics__grid">{content}</ul>
+      {setContent(process, () => content, newItemsLoading)}
       <button
         className="button button__main button__long"
         disabled={newItemsLoading}
