@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import PropTypes from "prop-types";
 
@@ -92,9 +92,13 @@ const CharList = ({ onCharSelected }) => {
     </ul>
   );
 
+  const elements = useMemo(() => {
+    return setContent(process, () => content, newItemsLoading);
+  }, [process]);
+
   return (
     <div className="char__list">
-      {setContent(process, () => content, newItemsLoading)}
+      {elements}
       <button
         className="button button__main button__long"
         disabled={newItemsLoading}
