@@ -68,7 +68,7 @@ const CharList = ({ onCharSelected }) => {
 
   const content = (
     <ul className="char__grid">
-      <TransitionGroup component={null}>
+      <TransitionGroup component={null} appear={!newItemsLoading}>
         {charsList.map((char) =>
           char ? (
             <CSSTransition

@@ -25,10 +25,12 @@
     object-fit: cover;
     transform: translate(-15px, -15px);
   }
-  &-enter {
+  &-enter,
+  &-appear {
     opacity: 0;
   }
-  &-enter-active {
+  &-enter-active,
+  &-appear-active {
     opacity: 1;
     transition: opacity 500ms ease-in;
   }

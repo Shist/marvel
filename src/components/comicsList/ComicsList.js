@@ -57,7 +57,7 @@ const ComicsList = () => {
 
   const content = (
     <ul className="comics__grid">
-      <TransitionGroup component={null}>
+      <TransitionGroup component={null} appear={!newItemsLoading}>
         {comicsList.map((comicsItem, index) => {
           return comicsItem ? (
             <CSSTransition
