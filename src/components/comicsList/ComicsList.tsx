@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
-import Spinner from "../../components/spinner/Spinner";
-import ErrorMessage from "../../components/errorMessage/ErrorMessage";
+import Spinner from "../spinner/Spinner";
+import ErrorMessage from "../errorMessage/ErrorMessage";
 import useMarvelService from "../../services/MarvelService";
 import ComicsListItem from "./ComicsListItem/ComicsListItem";
 
