@@ -1,11 +1,23 @@
 import "./charListItem.scss";
 
-const CharListItem = ({ char, itemsRefs, onItemClicked }) => {
+import { ICharInfo } from "../../../services/MarvelService";
+
+interface ICharListItemProps {
+  char: ICharInfo;
+  itemsRefs: React.MutableRefObject<HTMLElement[] | null[]>;
+  onItemClicked: () => void;
+}
+
+const CharListItem = ({
+  char,
+  itemsRefs,
+  onItemClicked,
+}: ICharListItemProps) => {
   return (
     <li
       className="char-list-item"
       ref={(element) => (itemsRefs.current[char.id] = element)}
-      tabIndex="0"
+      tabIndex={0}
       role="button"
       onClick={onItemClicked}
       onKeyDown={(e) => {
@@ -21,7 +33,7 @@ const CharListItem = ({ char, itemsRefs, onItemClicked }) => {
         style={
           char.thumbnail.endsWith("image_not_available.jpg")
             ? { objectFit: "contain" }
-            : null
+            : undefined
         }
       />
       <div className="char-list-item__name">{char.name}</div>

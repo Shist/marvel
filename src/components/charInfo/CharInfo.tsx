@@ -8,7 +8,7 @@ import { ICharInfo } from "../../services/MarvelService";
 
 import "./charInfo.scss";
 
-const CharInfo = ({ charId }: { charId: number }) => {
+const CharInfo = ({ charId }: { charId: number | null }) => {
   const [char, setChar] = useState<ICharInfo>({
     id: 0,
     name: "",

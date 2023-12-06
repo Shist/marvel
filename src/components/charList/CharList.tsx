@@ -7,10 +7,16 @@ import CharListItem from "./CharListItem/CharListItem";
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 
+import { ICharInfo } from "../../services/MarvelService";
+
 import "./charList.scss";
 import "./CharListItem/charListItem.scss";
 
-const setContent = (process, Component, newItemsLoading) => {
+const setContent = (
+  process: string,
+  Component: React.FC,
+  newItemsLoading: boolean
+): JSX.Element => {
   switch (process) {
     case "waiting":
       return <Spinner />;
@@ -25,11 +31,15 @@ const setContent = (process, Component, newItemsLoading) => {
   }
 };
 
-const CharList = ({ onCharSelected }) => {
-  const [charsList, setCharsList] = useState([]);
-  const [newItemsLoading, setNewItemsLoading] = useState(false);
-  const [offset, setOffset] = useState(210);
-  const [charsEnded, setCharsEnded] = useState(false);
+interface ICharList {
+  onCharSelected: (id: number) => void;
+}
+
+const CharList = ({ onCharSelected }: ICharList) => {
+  const [charsList, setCharsList] = useState<ICharInfo[]>([]);
+  const [newItemsLoading, setNewItemsLoading] = useState<boolean>(false);
+  const [offset, setOffset] = useState<number>(210);
+  const [charsEnded, setCharsEnded] = useState<boolean>(false);
 
   const { getAllCharacters, process, setProcess } = useMarvelService();
 
@@ -37,14 +47,14 @@ const CharList = ({ onCharSelected }) => {
     onRequest(offset, true);
   }, []);
 
-  const onRequest = (offset, initial) => {
+  const onRequest = (offset: number, initial: boolean) => {
     initial ? setNewItemsLoading(false) : setNewItemsLoading(true);
     getAllCharacters(offset)
       .then(onCharsListLoaded)
       .then(() => setProcess("confirmed"));
   };
 
-  const onCharsListLoaded = (newCharsList) => {
+  const onCharsListLoaded = (newCharsList: ICharInfo[]) => {
     let ended = false;
     if (newCharsList.length < 9) {
       ended = true;
@@ -56,14 +66,14 @@ const CharList = ({ onCharSelected }) => {
     setCharsEnded(ended);
   };
 
-  const itemsRefs = useRef([]);
+  const itemsRefs = useRef<HTMLElement[] | null[]>([]);
 
-  const focusOnItem = (id) => {
+  const focusOnItem = (id: number) => {
     itemsRefs.current.forEach((item) =>
-      item.classList.remove("char__item-selected")
+      item?.classList.remove("char__item-selected")
     );
-    itemsRefs.current[id].classList.add("char__item-selected");
-    itemsRefs.current[id].focus();
+    itemsRefs.current[id]?.classList.add("char__item-selected");
+    itemsRefs.current[id]?.focus();
   };
 
   const content = (
