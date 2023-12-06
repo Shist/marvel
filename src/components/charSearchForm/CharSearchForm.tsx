@@ -11,10 +11,12 @@ import { Link } from "react-router-dom";
 import useMarvelService from "../../services/MarvelService";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 
+import { ICharInfo } from "../../services/MarvelService";
+
 import "./charSearchForm.scss";
 
 const CharSearchForm = () => {
-  const [chars, setChars] = useState(null);
+  const [chars, setChars] = useState<ICharInfo[]>([]);
 
   const { clearError, getCharactersByName, process, setProcess } =
     useMarvelService();
