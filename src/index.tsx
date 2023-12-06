@@ -4,4 +4,10 @@ import App from "./components/app/App";
 import "./style/style.scss";
 
 // StrictMode was temporarily removed (because of React 18+)
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+const rootElement = document.getElementById("root");
+
+if (rootElement) {
+  ReactDOM.createRoot(rootElement).render(<App />);
+} else {
+  console.error("Root element not found");
+}

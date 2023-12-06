@@ -1,5 +1,57 @@
 import { useHttp } from "../hooks/http.hook";
 
+interface ICharComicDetails {
+  resourceURI: string;
+  name: string;
+}
+
+interface IResponseCharInfo {
+  id: number;
+  name: string;
+  description: string;
+  thumbnail: { path: string; extension: string };
+  urls: { url: string }[];
+  comics: { items: ICharComicDetails[] };
+}
+
+interface IResponseComic {
+  id: number;
+  title: string;
+  description: string;
+  pageCount: number;
+  thumbnail: { path: string; extension: string };
+  textObjects: { language: string }[];
+  prices: { price: number }[];
+}
+
+interface IResponseCharsBody {
+  data: { results: IResponseCharInfo[] };
+}
+
+interface IResponseComicsBody {
+  data: { results: IResponseComic[] };
+}
+
+export interface ICharInfo {
+  id: number;
+  name: string;
+  description: string;
+  thumbnail: string;
+  homepage: string;
+  wiki: string;
+  comics: ICharComicDetails[];
+}
+
+export interface IComic {
+  id: number;
+  title: string;
+  description: string;
+  pageCount: string;
+  thumbnail: string;
+  language: string;
+  price: string;
+}
+
 const useMarvelService = () => {
   const { request, clearError, process, setProcess } = useHttp();
 
@@ -8,50 +60,58 @@ const useMarvelService = () => {
   const _baseCharactersOffset = 210;
   const _baseComicsOffset = 0;
 
-  const getAllCharacters = async (offset = _baseCharactersOffset) => {
-    const result = await request(
+  const getAllCharacters = async (
+    offset: number = _baseCharactersOffset
+  ): Promise<ICharInfo[]> => {
+    const result: IResponseCharsBody = await request(
       `${_apiBase}characters?limit=9&offset=${offset}&${_apiKey}`
     );
     return result.data.results.map(_transformCharacter);
   };
 
-  const getCharacter = async (id) => {
-    const result = await request(`${_apiBase}characters/${id}?${_apiKey}`);
+  const getCharacter = async (id: number): Promise<ICharInfo> => {
+    const result: IResponseCharsBody = await request(
+      `${_apiBase}characters/${id}?${_apiKey}`
+    );
     return _transformCharacter(result.data.results[0]);
   };
 
-  const getCharactersByName = async (name) => {
-    const result = await request(
+  const getCharactersByName = async (name: string): Promise<ICharInfo[]> => {
+    const result: IResponseCharsBody = await request(
       `${_apiBase}characters?name=${name}&${_apiKey}`
     );
     return result.data.results.map(_transformCharacter);
   };
 
-  const getAllComics = async (offset = _baseComicsOffset) => {
-    const result = await request(
+  const getAllComics = async (
+    offset: number = _baseComicsOffset
+  ): Promise<IComic[]> => {
+    const result: IResponseComicsBody = await request(
       `${_apiBase}comics?orderBy=issueNumber&limit=8&offset=${offset}&${_apiKey}`
     );
     return result.data.results.map(_transformComic);
   };
 
-  const getComic = async (id) => {
-    const result = await request(`${_apiBase}comics/${id}?${_apiKey}`);
+  const getComic = async (id: number): Promise<IComic> => {
+    const result: IResponseComicsBody = await request(
+      `${_apiBase}comics/${id}?${_apiKey}`
+    );
     return _transformComic(result.data.results[0]);
   };
 
-  const _transformCharacter = (char) => {
+  const _transformCharacter = (char: IResponseCharInfo): ICharInfo => {
     return {
       id: char.id,
       name: char.name,
       description: char.description,
       thumbnail: `${char.thumbnail.path}.${char.thumbnail.extension}`,
       homepage: char.urls[0].url,
-      wiki: char.urls[1].wiki,
+      wiki: char.urls[1].url,
       comics: char.comics.items,
     };
   };
 
-  const _transformComic = (comic) => {
+  const _transformComic = (comic: IResponseComic): IComic => {
     return {
       id: comic.id,
       title: comic.title,

@@ -8,11 +8,11 @@ const Page404 = lazy(() => import("../../pages/404"));
 const MainPage = lazy(() => import("../../pages/MainPage"));
 const ComicsPage = lazy(() => import("../../pages/ComicsPage"));
 const SinglePageTemplate = lazy(() => import("../../pages/SinglePageTemplate"));
-const SingleComicLayout = lazy(() =>
-  import("../../pages/SingleComicLayout/SingleComicLayout")
+const SingleComicLayout = lazy(
+  () => import("../../pages/SingleComicLayout/SingleComicLayout")
 );
-const SingleCharLayout = lazy(() =>
-  import("../../pages/SingleCharLayout/SingleCharLayout")
+const SingleCharLayout = lazy(
+  () => import("../../pages/SingleCharLayout/SingleCharLayout")
 );
 
 const App = () => {

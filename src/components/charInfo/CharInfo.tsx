@@ -4,10 +4,20 @@ import PropTypes from "prop-types";
 import useMarvelService from "../../services/MarvelService";
 import setContent from "../../utils/setContent";
 
+import { ICharInfo } from "../../services/MarvelService";
+
 import "./charInfo.scss";
 
-const CharInfo = ({ charId }) => {
-  const [char, setChar] = useState(null);
+const CharInfo = ({ charId }: { charId: number }) => {
+  const [char, setChar] = useState<ICharInfo>({
+    id: 0,
+    name: "",
+    description: "",
+    thumbnail: "",
+    homepage: "",
+    wiki: "",
+    comics: [],
+  });
 
   const { clearError, getCharacter, process, setProcess } = useMarvelService();
 
@@ -25,14 +35,14 @@ const CharInfo = ({ charId }) => {
       .then(() => setProcess("confirmed"));
   };
 
-  const onCharLoaded = (char) => {
+  const onCharLoaded = (char: ICharInfo) => {
     setChar(char);
   };
 
   return <div className="char__info">{setContent(process, View, char)}</div>;
 };
 
-const View = ({ data }) => {
+const View = ({ data }: { data: ICharInfo }) => {
   const { name, description, thumbnail, homepage, wiki, comics } = data;
   const comicsArr = comics.map((item, index) => {
     return index < 10 ? (
@@ -50,7 +60,7 @@ const View = ({ data }) => {
           style={
             thumbnail.endsWith("image_not_available.jpg")
               ? { objectFit: "contain" }
-              : null
+              : undefined
           }
         />
         <div>
@@ -76,6 +86,7 @@ const View = ({ data }) => {
   );
 };
 
+// That part was in the project even before using TypeScript (working with PropTypes in react)
 CharInfo.propTypes = {
   charId: PropTypes.number,
 };

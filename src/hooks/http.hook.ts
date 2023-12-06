@@ -1,14 +1,16 @@
 import { useState, useCallback } from "react";
 
 export const useHttp = () => {
-  const [process, setProcess] = useState("waiting");
+  const [process, setProcess] = useState<string>("waiting");
 
   const request = useCallback(
     async (
-      url,
-      method = "GET",
-      body = null,
-      headers = { "Content-type": "application/json" }
+      url: string,
+      method: "GET" | "POST" = "GET",
+      body: BodyInit | null = null,
+      headers: { "Content-type": string } = {
+        "Content-type": "application/json",
+      }
     ) => {
       setProcess("loading");
       try {
