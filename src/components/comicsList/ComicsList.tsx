@@ -3,13 +3,19 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
-import useMarvelService from "../../services/MarvelService";
+import useMarvelService, { ICharInfo } from "../../services/MarvelService";
 import ComicsListItem from "./ComicsListItem/ComicsListItem";
+
+import { IComic } from "../../services/MarvelService";
 
 import "./comicsList.scss";
 import "./ComicsListItem/comicsListItem.scss";
 
-const setContent = (process, Component, newItemsLoading) => {
+const setContent = (
+  process: string,
+  Component: React.FC,
+  newItemsLoading: boolean
+): JSX.Element => {
   switch (process) {
     case "waiting":
       return <Spinner />;
@@ -25,10 +31,10 @@ const setContent = (process, Component, newItemsLoading) => {
 };
 
 const ComicsList = () => {
-  const [comicsList, setComicsList] = useState([]);
-  const [newItemsLoading, setNewItemsLoading] = useState(false);
-  const [offset, setOffset] = useState(0);
-  const [comicsEnded, setComicsEnded] = useState(false);
+  const [comicsList, setComicsList] = useState<IComic[]>([]);
+  const [newItemsLoading, setNewItemsLoading] = useState<boolean>(false);
+  const [offset, setOffset] = useState<number>(0);
+  const [comicsEnded, setComicsEnded] = useState<boolean>(false);
 
   const { getAllComics, process, setProcess } = useMarvelService();
 
@@ -36,14 +42,14 @@ const ComicsList = () => {
     onRequest(offset, true);
   }, []);
 
-  const onRequest = (offset, initial) => {
+  const onRequest = (offset: number, initial: boolean) => {
     initial ? setNewItemsLoading(false) : setNewItemsLoading(true);
     getAllComics(offset)
       .then(onComicsListLoaded)
       .then(() => setProcess("confirmed"));
   };
 
-  const onComicsListLoaded = (newComicsList) => {
+  const onComicsListLoaded = (newComicsList: IComic[]) => {
     let ended = false;
     if (newComicsList.length < 8) {
       ended = true;
@@ -65,7 +71,7 @@ const ComicsList = () => {
               timeout={500}
               classNames="comics-list-item"
             >
-              <ComicsListItem comics={comicsItem} key={index} />
+              <ComicsListItem comic={comicsItem} key={index} />
             </CSSTransition>
           ) : null;
         })}

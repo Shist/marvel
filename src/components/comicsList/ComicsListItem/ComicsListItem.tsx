@@ -1,18 +1,24 @@
 import { Link } from "react-router-dom";
 
+import { IComic } from "../../../services/MarvelService";
+
 import "./comicsListItem.scss";
 
-const ComicsListItem = ({ comics }) => {
+interface IComicListItemProps {
+  comic: IComic;
+}
+
+const ComicsListItem = ({ comic }: IComicListItemProps) => {
   return (
     <li className="comics-list-item">
-      <Link to={`/comics/${comics.id}`}>
+      <Link to={`/comics/${comic.id}`}>
         <img
-          src={comics.thumbnail}
-          alt={comics.title}
+          src={comic.thumbnail}
+          alt={comic.title}
           className="comics-list-item__img"
         />
-        <div className="comics-list-item__name">{comics.title}</div>
-        <div className="comics-list-item__price">{comics.price}</div>
+        <div className="comics-list-item__name">{comic.title}</div>
+        <div className="comics-list-item__price">{comic.price}</div>
       </Link>
     </li>
   );
