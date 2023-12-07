@@ -18,7 +18,7 @@ export const useHttp = () => {
         if (!response.ok) {
           throw new Error(`Could not fetch ${url}, status: ${response.status}`);
         }
-        const data = await response.json();
+        const data = await response.json(); // If we don't trust our server, we can add here "unknown" and additional checks later
         return data;
       } catch (e) {
         setProcess("error");
