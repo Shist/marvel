@@ -1,8 +1,10 @@
 import { Helmet } from "react-helmet";
 
+import { ICharInfo } from "../../services/MarvelService";
+
 import "./singleCharLayout.scss";
 
-const SingleCharLayout = ({ data }) => {
+const SingleCharLayout = ({ data }: { data: ICharInfo }) => {
   const { name, description, thumbnail } = data;
 
   return (

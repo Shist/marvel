@@ -30,7 +30,7 @@ const CharInfo = ({ charId }: { charId: number | null }) => {
       return;
     }
     clearError();
-    getCharacter(charId)
+    getCharacter(charId.toString())
       .then(onCharLoaded)
       .then(() => setProcess("confirmed"));
   };

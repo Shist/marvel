@@ -2,12 +2,12 @@ import Spinner from "../components/spinner/Spinner";
 import ErrorMessage from "../components/errorMessage/ErrorMessage";
 import Skeleton from "../components/skeleton/Skeleton";
 
-import { ICharInfo } from "../services/MarvelService";
+import { ICharInfo, IComic } from "../services/MarvelService";
 
 const setContent = (
   process: string,
-  Component: React.FC<{ data: ICharInfo }>,
-  data: ICharInfo
+  Component: React.FC<{ data: ICharInfo | IComic }>,
+  data: ICharInfo | IComic
 ) => {
   switch (process) {
     case "waiting":

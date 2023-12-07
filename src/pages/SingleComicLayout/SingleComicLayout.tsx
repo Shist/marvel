@@ -1,9 +1,11 @@
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 
+import { IComic } from "../../services/MarvelService";
+
 import "./singleComicLayout.scss";
 
-const SingleComicLayout = ({ data }) => {
+const SingleComicLayout = ({ data }: { data: IComic }) => {
   const { title, description, pageCount, thumbnail, language, price } = data;
 
   return (

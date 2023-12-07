@@ -69,7 +69,7 @@ const useMarvelService = () => {
     return result.data.results.map(_transformCharacter);
   };
 
-  const getCharacter = async (id: number): Promise<ICharInfo> => {
+  const getCharacter = async (id: string): Promise<ICharInfo> => {
     const result: IResponseCharsBody = await request(
       `${_apiBase}characters/${id}?${_apiKey}`
     );
@@ -92,7 +92,7 @@ const useMarvelService = () => {
     return result.data.results.map(_transformComic);
   };
 
-  const getComic = async (id: number): Promise<IComic> => {
+  const getComic = async (id: string): Promise<IComic> => {
     const result: IResponseComicsBody = await request(
       `${_apiBase}comics/${id}?${_apiKey}`
     );
