@@ -1,12 +1,15 @@
-import { Component } from "react";
+import { Component, ErrorInfo } from "react";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 
-class ErrorBoundary extends Component {
+class ErrorBoundary extends Component<
+  { children: JSX.Element },
+  { error: boolean }
+> {
   state = {
     error: false,
   };
 
-  componentDidCatch(error, errorInfo) {
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.log(error, errorInfo);
     this.setState({ error: true });
   }
