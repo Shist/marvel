@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import useMarvelService from "../../services/MarvelService";
 import setContent from "../../utils/setContent";
 
+import { ICharInfo } from "../../services/MarvelService";
+
 import "./randomChar.scss";
 import mjolnir from "../../resources/img/mjolnir.png";
 
 const RandomChar = () => {
-  const [char, setChar] = useState(null);
+  const [char, setChar] = useState<ICharInfo | null>(null);
 
   const { clearError, getCharacter, process, setProcess } = useMarvelService();
 
@@ -19,7 +21,7 @@ const RandomChar = () => {
     };
   }, []);
 
-  const onCharLoaded = (char) => {
+  const onCharLoaded = (char: ICharInfo) => {
     setChar(char);
   };
 
@@ -33,7 +35,7 @@ const RandomChar = () => {
 
   return (
     <div className="randomchar">
-      {setContent(process, View, char)}
+      {char ? setContent(process, View, char) : null}
       <div className="randomchar__static">
         <p className="randomchar__title">
           Random character for today!
@@ -57,7 +59,7 @@ const RandomChar = () => {
   );
 };
 
-const View = ({ data }) => {
+const View = ({ data }: { data: ICharInfo }) => {
   if (!data) return null;
 
   const { name, description, thumbnail, homepage, wiki } = data;
@@ -71,7 +73,7 @@ const View = ({ data }) => {
         style={
           thumbnail?.endsWith("image_not_available.jpg")
             ? { objectFit: "contain" }
-            : null
+            : undefined
         }
       />
       <div className="randomchar__info">
