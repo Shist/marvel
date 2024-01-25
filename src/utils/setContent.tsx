@@ -4,10 +4,10 @@ import Skeleton from "../components/skeleton/Skeleton";
 
 import { ICharInfo, IComic } from "../services/MarvelService";
 
-const setContent = (
+const setContent = <T extends ICharInfo | IComic>(
   process: string,
-  Component: React.FC<{ data: ICharInfo | IComic }>,
-  data: ICharInfo | IComic
+  Component: React.FC<{ data: T }>,
+  data: T
 ) => {
   switch (process) {
     case "waiting":

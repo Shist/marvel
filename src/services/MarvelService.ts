@@ -52,6 +52,27 @@ export interface IComic {
   price: string;
 }
 
+export function isIComic(object: unknown): object is IComic {
+  return (
+    typeof object === "object" &&
+    object !== null &&
+    "id" in object &&
+    typeof object.id === "number" &&
+    "title" in object &&
+    typeof object.title === "string" &&
+    "description" in object &&
+    typeof object.description === "string" &&
+    "pageCount" in object &&
+    typeof object.pageCount === "string" &&
+    "thumbnail" in object &&
+    typeof object.thumbnail === "string" &&
+    "language" in object &&
+    typeof object.language === "string" &&
+    "price" in object &&
+    typeof object.price === "string"
+  );
+}
+
 const useMarvelService = () => {
   const { request, clearError, process, setProcess } = useHttp();
 

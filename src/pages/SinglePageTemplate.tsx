@@ -5,11 +5,17 @@ import useMarvelService from "../services/MarvelService";
 import AppBanner from "../components/appBanner/AppBanner";
 import setContent from "../utils/setContent";
 
-import { ICharInfo, IComic } from "../services/MarvelService";
+import { ICharInfo, IComic, isIComic } from "../services/MarvelService";
 
 interface ISinglePageTemplateProps {
-  Component: React.FC<{ data: ICharInfo | IComic }>;
+  Component: React.FC<{ data: ICharInfo }> | React.FC<{ data: IComic }>;
   dataType: "character" | "comic";
+}
+
+function isComicComponent(
+  component: React.FC<{ data: ICharInfo }> | React.FC<{ data: IComic }>
+): component is React.FC<{ data: IComic }> {
+  return (component as React.FC<{ data: IComic }>).displayName !== undefined;
 }
 
 const SinglePageTemplate = ({
@@ -55,7 +61,15 @@ const SinglePageTemplate = ({
   return (
     <>
       <AppBanner />
-      {data ? setContent(process, Component, data) : null}
+      {data
+        ? isIComic(data)
+          ? isComicComponent(Component)
+            ? setContent<IComic>(process, Component, data)
+            : null
+          : isComicComponent(Component)
+          ? null
+          : setContent<ICharInfo>(process, Component, data)
+        : null}
     </>
   );
 };
