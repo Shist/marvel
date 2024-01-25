@@ -10,11 +10,16 @@
 
 ---
 
+### This project was rewritten from native JavaScript to TypeScript
+
+---
+
 ## Technologies used in the project
 
 - HTML
 - CSS / SCSS
-- Javascript
+- JavaScript
+- TypeScript
 - React
 - Formik + Yup
 - React Helmet
