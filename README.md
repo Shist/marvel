@@ -10,7 +10,7 @@
 
 ---
 
-### This project was rewritten from native JavaScript to TypeScript
+### This project was rewritten from native JavaScript to TypeScript. This branch contains the version on TypeScript.
 
 ---
 
