@@ -1,5 +1,7 @@
 import "./appBanner.scss";
+// @ts-ignore
 import avengers from "../../resources/img/Avengers.png";
+// @ts-ignore
 import avengersLogo from "../../resources/img/Avengers_logo.png";
 
 const AppBanner = () => {

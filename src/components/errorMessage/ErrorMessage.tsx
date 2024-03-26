@@ -1,3 +1,4 @@
+// @ts-ignore
 import errorImg from "./error.gif";
 
 import "./errorMessage.scss";

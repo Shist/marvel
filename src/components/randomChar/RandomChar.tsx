@@ -5,6 +5,7 @@ import setContent from "../../utils/setContent";
 import { ICharInfo } from "../../services/MarvelService";
 
 import "./randomChar.scss";
+// @ts-ignore
 import mjolnir from "../../resources/img/mjolnir.png";
 
 const RandomChar = () => {
